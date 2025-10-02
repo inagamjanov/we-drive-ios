@@ -32,7 +32,7 @@ struct RouterView: View {
                     .presentationBackground(.ultraThinMaterial)
                     .presentationDragIndicator(.visible)
                     .presentationBackgroundInteraction(.enabled)
-                    .presentationDetents([.height(250), .medium, .fraction(0.9)], selection: $routerMVVM.sheetSize)
+                    .presentationDetents([.height(300), .medium, .fraction(0.95)], selection: $routerMVVM.sheetSize)
                 }
         } else {
             // Not Allowed

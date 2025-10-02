@@ -21,28 +21,35 @@ struct MapView: View {
                 .showsAccuracyRing(true)
                 .pulsing(.init(color: UIColor(PrimaryColor), radius: .accuracy))
             
-            MapViewAnnotation(coordinate: CLLocationCoordinate2D(latitude: 41.29445, longitude: 69.26669)) {
+            MapViewAnnotation(coordinate: CLLocationCoordinate2D(latitude: 41.32804729179122, longitude: 69.24775661548445)) {
                 Image("from")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60)
-                    .padding(.bottom, 30)
+                    .gridCellAnchor(.top)
             }
             .allowOverlapWithPuck(true)
             
-            MapViewAnnotation(coordinate: CLLocationCoordinate2D(latitude: 41.29675, longitude: 69.27525)) {
+            MapViewAnnotation(coordinate: CLLocationCoordinate2D(latitude: 41.321714138561966, longitude: 69.31162781353152)) {
                 Image("to")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60)
-                    .padding(.bottom, 30)
+                    .gridCellAnchor(.top)
             }
             .allowOverlapWithPuck(true)
             
             if !routeCoordinates.isEmpty {
-                PolylineAnnotation(lineString: .init(routeCoordinates))
-                    .lineWidth(6)
-                    .lineColor(UIColor(Color(hex: "#50CD89")))
+                // Route polyline
+                PolylineAnnotationGroup {
+                    PolylineAnnotation(id: "route-feature", lineCoordinates: routeCoordinates)
+                        .lineColor("#50CD89")
+                    //.lineBorderColor("#0150FF")
+                    // .lineBorderWidth(2)
+                        .lineWidth(6)
+                }
+                .layerId("route")
+                .lineCap(.round)
             }
         }
         .ornamentOptions(
@@ -69,8 +76,8 @@ struct MapView: View {
 
 //MARK: -  Fetch Route between 2 Routes
 func fetchRoute(onDone: @escaping ([CLLocationCoordinate2D]) -> Void) async {
-    let origin = CLLocationCoordinate2D(latitude: 41.29445, longitude: 69.26669)
-    let destination = CLLocationCoordinate2D(latitude: 41.29675, longitude: 69.27525)
+    let origin = CLLocationCoordinate2D(latitude: 41.32804729179122, longitude: 69.24775661548445)
+    let destination = CLLocationCoordinate2D(latitude: 41.321714138561966, longitude: 69.31162781353152)
     
     let urlString = """
                     https://api.mapbox.com/directions/v5/mapbox/driving/\(origin.longitude),\(origin.latitude);\(destination.longitude),\(destination.latitude)?geometries=geojson&access_token=\(Bundle.main.mapboxAccessToken)
