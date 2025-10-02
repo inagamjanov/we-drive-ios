@@ -97,7 +97,7 @@ struct BottomSheetView: View {
                                     .scaledToFit()
                                     .frame(width: 20, height: 20)
                                 
-                                Text("6 minut")
+                                Text("6 Daqiqa")
                                     .as_font(.callout, .regular, .gray, 1)
                             }
                         }
@@ -108,8 +108,8 @@ struct BottomSheetView: View {
                         Image("most_fast_cars")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .padding(5)
+                            .frame(height: 90)
+                            .padding(3)
                     }
                 }
                 .padding(.horizontal, 15)
@@ -203,7 +203,7 @@ struct AdditionalDetailCardView: View {
         ZStack(alignment: .bottomTrailing) {
             LazyVStack(alignment: .leading) {
                 Text(title)
-                    .as_font(.callout, .regular, .black, 3, .leading, design: nil, reserve_space: true)
+                    .as_font(.callout, .medium, .black, 3, .leading, design: nil, reserve_space: true)
             }
             .padding(.bottom, 30)
             .padding(13)
