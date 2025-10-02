@@ -32,7 +32,6 @@ struct OrderButton: View {
                         .as_font(.caption, .semibold, .gray)
                 }
                 .frame(width: screenWidth - 35)
-                .padding(.top, 20)
             }
             
             Button {
@@ -57,5 +56,6 @@ struct OrderButton: View {
         .frame(width: screenWidth)
         .background(.white)
         .clipShape(RoundedShape())
+        .padding(.top, 20)
     }
 }
