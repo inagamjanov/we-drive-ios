@@ -19,6 +19,7 @@ struct BottomSheetView: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .center, spacing: 20) {
+                // Direction
                 VStack(alignment: .center, spacing: 15) {
                     HStack(alignment: .center, spacing: 15) {
                         Image("point")
@@ -56,75 +57,107 @@ struct BottomSheetView: View {
                     .cornerRadius(15)
                 }
                 .padding(.horizontal, 15)
-                .padding(.top, 30)
                 
-                HStack(alignment: .center, spacing: 10) {
-                    ForEach(Array(zip(Tarrifs.allCases.indices, Tarrifs.allCases)), id: \.0) { idx, tarrif in
-                        TarrifCardView(tarrif: tarrif, isSelected: tarrifsMVVM.selectedTarrif == tarrif) { newTarrif in
-                            tarrifsMVVM.selectedTarrif = newTarrif
+                // Tarrifs
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .center, spacing: 10) {
+                        ForEach(Array(zip(Tarrifs.allCases.indices, Tarrifs.allCases)), id: \.0) { idx, tarrif in
+                            TarrifCardView(tarrif: tarrif, isSelected: tarrifsMVVM.selectedTarrif == tarrif) { newTarrif in
+                                tarrifsMVVM.selectedTarrif = newTarrif
+                            }
                         }
                     }
+                    .padding(.leading, 15)
                 }
+                
+                // Tarrif Details
+                
+                // Most Faster
+                Button {
+                    
+                } label: {
+                    ZStack(alignment: .trailing) {
+                        LazyVStack(alignment: .leading, spacing: 10) {
+                            HStack(alignment: .center, spacing: 10) {
+                                Image("green_spark_fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                
+                                Text("Eng tez")
+                                    .as_font(.callout, .semibold, .black, 1)
+                            }
+                            
+                            Text("Minimal narx: 32 000 so'm")
+                                .as_font(.callout, .medium, .black, 1)
+                            
+                            HStack(alignment: .center, spacing: 10) {
+                                Image("time")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                
+                                Text("6 minut")
+                                    .as_font(.callout, .regular, .gray, 1)
+                            }
+                        }
+                        .padding(13)
+                        .background(.white)
+                        .cornerRadius(15)
+                        
+                        Image("most_fast_cars")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .padding(5)
+                    }
+                }
+                .padding(.horizontal, 15)
+                
+                // Review
+                Button {
+                    
+                } label: {
+                    HStack(alignment: .center, spacing: 10) {
+                        Image("message")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 25, height: 25)
+                        
+                        Text("Xaydovchiga izoh yozish")
+                            .as_font(.body, .medium, .black)
+                        
+                        Spacer()
+                    }
+                    .padding(15)
+                    .background(.white)
+                    .cornerRadius(15)
+                    .padding(.horizontal, 15)
+                }
+                
+                // Additional Detail
+                HStack(alignment: .center, spacing: 10) {
+                    NavigationLink {
+                        
+                    } label: {
+                        AdditionalDetailCardView(title: "Boshqa odam nomiga buyurtma", image: "peoples")
+                    }
+                    
+                    NavigationLink {
+                        
+                    } label: {
+                        AdditionalDetailCardView(title: "Qo’shimcha imkoniyatlar", image: "tools")
+                    }
+                }
+                .padding(.horizontal, 15)
             }
+            .padding(.vertical, 30)
         }
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 OrderButton()
             }
         }
-    }
-}
-
-
-// MARK: - Bottom Order Button
-struct OrderButton: View {
-    
-    var body: some View {
-        VStack(alignment: .center, spacing: 15) {
-            Button {
-                // TODO: - Change Payment Type
-                print("First")
-            } label: {
-                HStack(alignment: .center, spacing: 10) {
-                    Image("cash")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30)
-                    
-                    Text("Naqd pulda")
-                        .as_font(.body, .medium, .black)
-                    
-                    Spacer(minLength: 0)
-                    
-                    Image(systemName: "chevron.right")
-                        .as_font(.caption, .semibold, .gray)
-                }
-                .frame(width: screenWidth - 35)
-                .padding(.top, 20)
-            }
-            
-            Button {
-                // TODO: - Order a Taxi
-                print("Second")
-            } label: {
-                Text("Buyurtma berish")
-                    .frame(width: screenWidth - 60)
-                    .as_font(.headline, .semibold, .white, 1)
-                    .padding(15)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color(hex: "#0150FF"), Color(hex: "#4DC9E6")]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .cornerRadius(15)
-                    .padding(.bottom, 75)
-            }
-        }
-        .frame(width: screenWidth)
-        .background(.white)
-        .clipShape(RoundedShape())
     }
 }
 
@@ -152,9 +185,36 @@ struct TarrifCardView: View {
                 .cornerRadius(CGFloat(10))
                 .overlay(
                     RoundedRectangle(cornerRadius: CGFloat(10))
-                        .stroke(isSelected ? PrimaryColor : Color.gray, lineWidth: 1)
+                        .stroke(isSelected ? PrimaryColor : Color(.systemGray3), lineWidth: 1)
                 )
                 .padding(0.5)
+        }
+    }
+}
+
+
+// MARK: - Additional Detail Card
+struct AdditionalDetailCardView: View {
+    
+    var title: String
+    var image: String
+    
+    var body: some View {
+        ZStack(alignment: .bottomTrailing) {
+            LazyVStack(alignment: .leading) {
+                Text(title)
+                    .as_font(.callout, .regular, .black, 3, .leading, design: nil, reserve_space: true)
+            }
+            .padding(.bottom, 30)
+            .padding(13)
+            .background(.white)
+            .cornerRadius(15)
+            
+            Image(image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 60, height: 60)
+                .padding(3)
         }
     }
 }
