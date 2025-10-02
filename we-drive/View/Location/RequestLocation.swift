@@ -19,7 +19,7 @@ struct RequestLocationPermissionView: View {
             LottieView(filename: "location", loopMode: .loop, animationSpeed: 0.8)
                 .frame(width: 300, height: 200)
             
-            Text("Allow Location")
+            Text("Geo-lokatsiyaga ruxsat berilmagan. Ilovadan to'liq foydalanish uchun iltimos ruxsat bering.")
                 .as_font(.body, .semibold, .black, Int.max, .center)
                 .padding(.horizontal, 20)
             
@@ -29,7 +29,7 @@ struct RequestLocationPermissionView: View {
                 }
             } label: {
                 LazyVStack {
-                    Text("Allow")
+                    Text("Ruxsat Berish")
                         .as_font(.headline, .semibold, .white, 1)
                 }
                 .padding(15)

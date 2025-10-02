@@ -23,14 +23,16 @@ struct RouterView: View {
             // Allowed
             MapView()
                 .sheet(isPresented: .constant(true)) {
-                    BottomSheetView()
-                        .environmentObject(routerMVVM)
-                        .presentationCornerRadius(30)
-                        .interactiveDismissDisabled(true)
-                        .presentationBackground(.ultraThinMaterial)
-                        .presentationDragIndicator(.visible)
-                        .presentationBackgroundInteraction(.enabled)
-                        .presentationDetents([.height(130), .medium, .fraction(0.9)], selection: $routerMVVM.sheetSize)
+                    NavigationView {
+                        BottomSheetView()
+                    }
+                    .environmentObject(routerMVVM)
+                    .presentationCornerRadius(30)
+                    .interactiveDismissDisabled(true)
+                    .presentationBackground(.ultraThinMaterial)
+                    .presentationDragIndicator(.visible)
+                    .presentationBackgroundInteraction(.enabled)
+                    .presentationDetents([.height(250), .medium, .fraction(0.9)], selection: $routerMVVM.sheetSize)
                 }
         } else {
             // Not Allowed
