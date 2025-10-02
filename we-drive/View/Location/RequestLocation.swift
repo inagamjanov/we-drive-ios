@@ -16,8 +16,8 @@ struct RequestLocationPermissionView: View {
     
     var body: some View {
         LazyVStack(spacing: 20) {
-            //            LottieView(filename: "location", loopMode: .loop, animationSpeed: 0.8)
-            //                .frame(width: 300, height: 200)
+            LottieView(filename: "location", loopMode: .loop, animationSpeed: 0.8)
+                .frame(width: 300, height: 200)
             
             Text("Allow Location")
                 .as_font(.body, .semibold, .black, Int.max, .center)

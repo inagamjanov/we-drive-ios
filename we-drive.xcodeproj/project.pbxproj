@@ -9,8 +9,20 @@
 /* Begin PBXBuildFile section */
 		68951F6D2E8E64290006F286 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 68951F6C2E8E64290006F286 /* MapboxMaps */; };
 		68951F702E8E64C10006F286 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 68951F6F2E8E64C10006F286 /* Lottie */; };
-		68951F722E8E64C10006F286 /* Lottie-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 68951F712E8E64C10006F286 /* Lottie-Dynamic */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		68951F922E8E65950006F286 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		685E6B122E8E55DF004212D3 /* we-drive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "we-drive.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,7 +56,6 @@
 			files = (
 				68951F6D2E8E64290006F286 /* MapboxMaps in Frameworks */,
 				68951F702E8E64C10006F286 /* Lottie in Frameworks */,
-				68951F722E8E64C10006F286 /* Lottie-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +88,7 @@
 				685E6B0E2E8E55DF004212D3 /* Sources */,
 				685E6B0F2E8E55DF004212D3 /* Frameworks */,
 				685E6B102E8E55DF004212D3 /* Resources */,
+				68951F922E8E65950006F286 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -89,7 +101,6 @@
 			packageProductDependencies = (
 				68951F6C2E8E64290006F286 /* MapboxMaps */,
 				68951F6F2E8E64C10006F286 /* Lottie */,
-				68951F712E8E64C10006F286 /* Lottie-Dynamic */,
 			);
 			productName = "we-drive";
 			productReference = 685E6B122E8E55DF004212D3 /* we-drive.app */;
@@ -286,6 +297,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "we-drive/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location while you’re using the app.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location while you’re using the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -293,7 +306,8 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -322,6 +336,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "we-drive/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location while you’re using the app.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location while you’re using the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -329,7 +345,8 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -399,11 +416,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 68951F6E2E8E64C10006F286 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
-		};
-		68951F712E8E64C10006F286 /* Lottie-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 68951F6E2E8E64C10006F286 /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = "Lottie-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

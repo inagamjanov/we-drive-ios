@@ -12,10 +12,26 @@ import MapboxMaps
 // MARK: - BG Map View
 struct MapView: View {
     
-    @State var center = CLLocationCoordinate2D(latitude: 39.5, longitude: -98.0)
+    @State var viewport: Viewport = .camera(center: CLLocationCoordinate2D(latitude: 41.3010451, longitude: 69.3185568), zoom: 14, bearing: 0, pitch: 0)
     
     var body: some View {
-        Map(initialViewport: .camera(center: center, zoom: 2, bearing: 0, pitch: 0))
-            .ignoresSafeArea()
+        Map(viewport: $viewport) {
+            Puck2D(bearing: .heading)
+                .showsAccuracyRing(true)
+                .pulsing(.init(color: UIColor(PrimaryColor), radius: .accuracy))
+        }
+        .ornamentOptions(
+            OrnamentOptions(
+                scaleBar: ScaleBarViewOptions(visibility: .hidden),
+                compass: CompassViewOptions(visibility: .hidden)
+            )
+        )
+        .mapStyle(.standard)
+        .ignoresSafeArea()
+        .onAppear {
+            withAnimation(.linear) {
+                viewport = .followPuck(zoom: 16, bearing: .course, pitch: 0)
+            }
+        }
     }
 }
