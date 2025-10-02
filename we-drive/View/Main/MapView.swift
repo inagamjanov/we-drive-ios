@@ -12,13 +12,38 @@ import MapboxMaps
 // MARK: - BG Map View
 struct MapView: View {
     
-    @State var viewport: Viewport = .camera(center: CLLocationCoordinate2D(latitude: 41.3010451, longitude: 69.3185568), zoom: 14, bearing: 0, pitch: 0)
+    @State var viewport: Viewport = .camera(center: CLLocationCoordinate2D(latitude: 41.3010451, longitude: 69.3185568), zoom: 12, bearing: 0, pitch: 0)
+    @State private var routeCoordinates: [CLLocationCoordinate2D] = []
     
     var body: some View {
         Map(viewport: $viewport) {
             Puck2D(bearing: .heading)
                 .showsAccuracyRing(true)
                 .pulsing(.init(color: UIColor(PrimaryColor), radius: .accuracy))
+            
+            MapViewAnnotation(coordinate: CLLocationCoordinate2D(latitude: 41.29445, longitude: 69.26669)) {
+                Image("from")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .padding(.bottom, 30)
+            }
+            .allowOverlapWithPuck(true)
+            
+            MapViewAnnotation(coordinate: CLLocationCoordinate2D(latitude: 41.29675, longitude: 69.27525)) {
+                Image("to")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .padding(.bottom, 30)
+            }
+            .allowOverlapWithPuck(true)
+            
+            if !routeCoordinates.isEmpty {
+                PolylineAnnotation(lineString: .init(routeCoordinates))
+                    .lineWidth(6)
+                    .lineColor(UIColor(Color(hex: "#50CD89")))
+            }
         }
         .ornamentOptions(
             OrnamentOptions(
@@ -30,8 +55,45 @@ struct MapView: View {
         .ignoresSafeArea()
         .onAppear {
             withAnimation(.linear) {
-                viewport = .followPuck(zoom: 16, bearing: .course, pitch: 0)
+                viewport = .followPuck(zoom: 14.8, bearing: .course, pitch: 0)
             }
         }
+        .task {
+            await fetchRoute { coordinates in
+                self.routeCoordinates = coordinates
+            }
+        }
+    }
+}
+
+
+//MARK: -  Fetch Route between 2 Routes
+func fetchRoute(onDone: @escaping ([CLLocationCoordinate2D]) -> Void) async {
+    let origin = CLLocationCoordinate2D(latitude: 41.29445, longitude: 69.26669)
+    let destination = CLLocationCoordinate2D(latitude: 41.29675, longitude: 69.27525)
+    
+    let urlString = """
+                    https://api.mapbox.com/directions/v5/mapbox/driving/\(origin.longitude),\(origin.latitude);\(destination.longitude),\(destination.latitude)?geometries=geojson&access_token=\(Bundle.main.mapboxAccessToken)
+                    """
+    
+    guard let url = URL(string: urlString) else { return }
+    
+    do {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+           let routes = json["routes"] as? [[String: Any]],
+           let geometry = routes.first?["geometry"] as? [String: Any],
+           let coords = geometry["coordinates"] as? [[Double]] {
+            
+            // Convert [lng, lat] to CLLocationCoordinate2D
+            let parsed = coords.map { CLLocationCoordinate2D(latitude: $0[1], longitude: $0[0]) }
+            
+            DispatchQueue.main.async {
+                onDone(parsed)
+            }
+        }
+    } catch {
+        print("Route fetch error: \(error)")
+        onDone([])
     }
 }

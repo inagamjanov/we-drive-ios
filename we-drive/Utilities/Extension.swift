@@ -50,3 +50,14 @@ extension View {
             .lineLimit(line_limit, reservesSpace: reserve_space)
     }
 }
+
+
+// MARK: - Access Token Marked
+extension Bundle {
+    var mapboxAccessToken: String {
+        guard let token = object(forInfoDictionaryKey: "MBXAccessToken") as? String else {
+            fatalError("⚠️ Mapbox access token not found in Info.plist")
+        }
+        return token
+    }
+}
