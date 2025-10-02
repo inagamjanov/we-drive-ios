@@ -12,4 +12,6 @@ import SwiftUI
 // MARK: - Router MVVM
 class RouterMVVM: ObservableObject {
     
+    @Published var sheetSize: PresentationDetent = .height(130)
+    
 }

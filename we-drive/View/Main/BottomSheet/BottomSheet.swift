@@ -8,3 +8,12 @@
 import SwiftUI
 
 
+struct BottomSheetView: View {
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            VStack {
+                
+            }
+        }
+    }
+}

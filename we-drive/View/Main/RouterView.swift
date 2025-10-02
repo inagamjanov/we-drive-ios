@@ -13,6 +13,7 @@ import CoreLocation
 struct RouterView: View {
     
     // Properties
+    @EnvironmentObject private var routerMVVM: RouterMVVM
     @StateObject private var locationManager = LocationManager()
     
     var body: some View {
@@ -21,6 +22,16 @@ struct RouterView: View {
         if [.authorizedWhenInUse, .authorizedAlways].contains(locationManager.authorizationStatus) {
             // Allowed
             MapView()
+                .sheet(isPresented: .constant(true)) {
+                    BottomSheetView()
+                        .environmentObject(routerMVVM)
+                        .presentationCornerRadius(30)
+                        .interactiveDismissDisabled(true)
+                        .presentationBackground(.ultraThinMaterial)
+                        .presentationDragIndicator(.visible)
+                        .presentationBackgroundInteraction(.enabled)
+                        .presentationDetents([.height(130), .medium, .fraction(0.9)], selection: $routerMVVM.sheetSize)
+                }
         } else {
             // Not Allowed
             RequestLocationPermissionView(locationManager: locationManager)
