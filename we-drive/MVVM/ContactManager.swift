@@ -21,7 +21,7 @@ struct ContactPicker: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> CNContactPickerViewController {
         let picker = CNContactPickerViewController()
         picker.delegate = context.coordinator
-        picker.displayedPropertyKeys = [CNContactPhoneNumbersKey] // only phone numbers
+        picker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
         return picker
     }
     

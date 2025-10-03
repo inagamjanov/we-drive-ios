@@ -1,5 +1,5 @@
 //
-//  BottomSheet.swift
+//  DraggableSheet.swift
 //  we-drive
 //
 //  Created by Inagamjanov on 02/10/25.
@@ -9,7 +9,7 @@ import SwiftUI
 
 
 // MARK: - Bottom Draggable Sheet
-struct BottomSheetView: View {
+struct DraggableSheet: View {
     
     @State var from: String = "IT Park"
     @State var to: String = "Impact Group"
@@ -166,9 +166,10 @@ struct BottomSheetView: View {
                     }
                     
                     NavigationLink {
-                        
+                        WishesView()
+                            .background(.ultraThinMaterial)
                     } label: {
-                        AdditionalDetailCardView(title: "Qo’shimcha imkoniyatlar", image: "tools", isSelected: false)
+                        AdditionalDetailCardView(title: "Qo’shimcha imkoniyatlar", image: "tools", isSelected: rideDetailsMVVM.wishes.isEmpty == false)
                     }
                 }
                 .padding(.horizontal, 15)
@@ -182,7 +183,11 @@ struct BottomSheetView: View {
                             }
                         }
                         
-                        
+                        ForEach(Array(rideDetailsMVVM.wishes), id: \.self) { wish in
+                            SelectedDetailsCardView(img: nil, text: wish.asWish.title) {
+                                rideDetailsMVVM.wishes.remove(wish)
+                            }
+                        }
                         
                         Spacer(minLength: 0)
                     }
@@ -245,7 +250,7 @@ struct AdditionalDetailCardView: View {
 // MARK: - Selected Details Card
 struct SelectedDetailsCardView: View {
     
-    var img: String
+    var img: String?
     var text: String
     var onClick: () -> Void
     
@@ -256,11 +261,13 @@ struct SelectedDetailsCardView: View {
             }
         } label: {
             HStack(alignment: .center, spacing: 8) {
-                Image(systemName: img)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                    .foregroundStyle(PrimaryColor)
+                if let img {
+                    Image(systemName: img)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(PrimaryColor)
+                }
                 
                 Text(text)
                     .as_font(.callout, .medium, .black, 1)

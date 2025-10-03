@@ -26,7 +26,7 @@ struct RouterView: View {
             MapView()
                 .sheet(isPresented: .constant(routerMVVM.showContactPicker == false)) {
                     NavigationStack {
-                        BottomSheetView()
+                        DraggableSheet()
                     }
                     .background(.ultraThinMaterial)
                     .environmentObject(routerMVVM)

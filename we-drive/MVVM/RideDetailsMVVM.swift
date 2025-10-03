@@ -10,20 +10,44 @@ import SwiftUI
 
 // MARK: - Wishes
 enum Wishes: String, CaseIterable {
-    case DontCall, Assistance, PetTransport, CantSpeak
     
-    var asString: String {
+    case ChildSeat, NoSmoking, DontCall, Assistance, PetTransport, CantSpeak
+    
+    var asWish: Wish {
         switch self {
+        case .ChildSeat:
+            Wish(id: 1, image: "", title: "Bolalar o'rindig'i", caption: "2 000 so'm", toggleType: .Toggle)
+        case .NoSmoking:
+            Wish(id: 2, image: "", title: "Chekilmasin", caption: "200 so'm", toggleType: .Toggle)
         case .DontCall:
-            "Telefon qilmang"
+            Wish(id: 3, image: nil, title: "Telefon qilmang", caption: nil, toggleType: .Checkbox)
         case .Assistance:
-            "Yordamchi kerak"
+            Wish(id: 4, image: nil, title: "Assistent kerak", caption: nil, toggleType: .Checkbox)
         case .PetTransport:
-            "Uy hayvoni bor"
+            Wish(id: 5, image: nil, title: "Uy hayvoni mavjud", caption: nil, toggleType: .Checkbox)
         case .CantSpeak:
-            "Gapira olmayman"
+            Wish(id: 6, image: nil, title: "Gapira olmayman", caption: nil, toggleType: .Checkbox)
         }
     }
+}
+
+
+// MARK: - Wish Check Type
+enum WishToggleType: Int {
+    case Toggle, Checkbox
+}
+
+
+// MARK: - Wish
+struct Wish: Identifiable {
+    
+    var id: Int
+    
+    var image: String?
+    var title: String
+    var caption: String?
+    
+    var toggleType: WishToggleType
 }
 
 
@@ -34,8 +58,5 @@ class RideDetailsMVVM: ObservableObject {
     @Published var anotherPerson: String? = nil
     
     // Wishes
-    @Published var noSmoking: Bool = false
-    @Published var childrenSeats: Bool = false
-    
     @Published var wishes: Set<Wishes> = []
 }
