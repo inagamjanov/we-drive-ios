@@ -16,9 +16,9 @@ enum Wishes: String, CaseIterable {
     var asWish: Wish {
         switch self {
         case .ChildSeat:
-            Wish(id: 1, image: "", title: "Bolalar o'rindig'i", caption: "2 000 so'm", toggleType: .Toggle)
+            Wish(id: 1, image: "child_seat", title: "Bolalar o'rindig'i", caption: "2 000 so'm", toggleType: .Toggle)
         case .NoSmoking:
-            Wish(id: 2, image: "", title: "Chekilmasin", caption: "200 so'm", toggleType: .Toggle)
+            Wish(id: 2, image: "no_smoking", title: "Chekilmasin", caption: "200 so'm", toggleType: .Toggle)
         case .DontCall:
             Wish(id: 3, image: nil, title: "Telefon qilmang", caption: nil, toggleType: .Checkbox)
         case .Assistance:

@@ -31,7 +31,7 @@ struct TarrifCardView: View {
                 .cornerRadius(CGFloat(10))
                 .overlay(
                     RoundedRectangle(cornerRadius: CGFloat(10))
-                        .stroke(isSelected ? PrimaryColor : Color(.systemGray3), lineWidth: 1)
+                        .stroke(isSelected ? PrimaryColor : .white, lineWidth: 1)
                 )
                 .padding(0.5)
         }
