@@ -201,6 +201,7 @@ struct DraggableSheet: View {
             .padding(.top, 30)
             .padding(.bottom, 95)
         }
+        .scrollDisabled(routerMVVM.sheetSize == .height(300))
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 OrderButton()
