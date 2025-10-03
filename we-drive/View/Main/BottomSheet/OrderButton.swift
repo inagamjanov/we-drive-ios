@@ -53,9 +53,9 @@ struct OrderButton: View {
                     .padding(.bottom, 75)
             }
         }
+        .padding(.top, 20)
         .frame(width: screenWidth)
         .background(.white)
         .clipShape(RoundedShape())
-        .padding(.top, 20)
     }
 }

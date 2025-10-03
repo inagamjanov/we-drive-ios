@@ -67,10 +67,18 @@ struct BottomSheetView: View {
                             }
                         }
                     }
-                    .padding(.leading, 15)
+                    .padding(.horizontal, 15)
                 }
                 
                 // Tarrif Details
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .center, spacing: 10) {
+                        ForEach(tarrifsMVVM.tarrifs) { tarrif in
+                            TarrifDetailCardView(tarrif: tarrif)
+                        }
+                    }
+                    .padding(.horizontal, 15)
+                }
                 
                 // Most Faster
                 Button {
@@ -151,7 +159,8 @@ struct BottomSheetView: View {
                 }
                 .padding(.horizontal, 15)
             }
-            .padding(.vertical, 30)
+            .padding(.top, 30)
+            .padding(.bottom, 95)
         }
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
@@ -215,6 +224,67 @@ struct AdditionalDetailCardView: View {
                 .scaledToFit()
                 .frame(width: 60, height: 60)
                 .padding(3)
+        }
+    }
+}
+
+
+// MARK: - Tarrif Detailed Card
+struct TarrifDetailCardView: View {
+    
+    var tarrif: Tarrif
+    
+    var body: some View {
+        ZStack(alignment: .center) {
+            
+            Image("first")
+                .resizable()
+                .scaledToFit()
+                .frame(width: screenWidth - 40)
+                .overlay(
+                    RoundedRectangle(cornerRadius: CGFloat(20))
+                        .stroke(.white, lineWidth: 4)
+                )
+                .padding(2)
+            
+            LazyVStack(alignment: .leading, spacing: 7) {
+                
+                Text(tarrif.name)
+                    .as_font(.title, .semibold, .black, 1)
+                
+                HStack(alignment: .center, spacing: 8) {
+                    Image("person")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 15, height: 15)
+                    
+                    Text("\(tarrif.capacity) Kishilik")
+                        .as_font(.callout, .medium, PrimaryColor, 1)
+                }
+                
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("\(tarrif.price, specifier: "%.0f") so'm")
+                        .as_font(.footnote, .medium, .gray, 1)
+                    
+                    Text("\(tarrif.discountedPrice, specifier: "%.0f") so'm")
+                        .as_font(.body, .semibold, .black, 1)
+                }
+                
+                HStack(alignment: .center, spacing: 8) {
+                    Image("time")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 15, height: 15)
+                    
+                    Text("\(tarrif.time, specifier: "%.0f") Daqiqa")
+                        .as_font(.footnote, .regular, .gray, 1)
+                }
+                
+                Text("\(tarrif.cars.joined(separator: ", "))")
+                    .as_font(.footnote, .regular, .gray, 1)
+            }
+            .padding(.horizontal, 15)
+            .padding(.top, 5)
         }
     }
 }
