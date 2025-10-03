@@ -36,6 +36,7 @@ struct DraggableSheet: View {
                     .padding(15)
                     .background(.white)
                     .cornerRadius(15)
+                    .shadow(color: Color.black.opacity(0.04), radius: 1, x: 1, y: 3)
                     
                     HStack(alignment: .center, spacing: 15) {
                         Image("flag")
@@ -58,6 +59,7 @@ struct DraggableSheet: View {
                     .padding(15)
                     .background(.white)
                     .cornerRadius(15)
+                    .shadow(color: Color.black.opacity(0.04), radius: 1, x: 1, y: 3)
                 }
                 .padding(.horizontal, 15)
                 
@@ -133,6 +135,7 @@ struct DraggableSheet: View {
                             .frame(height: 90)
                             .padding(3)
                     }
+                    .shadow(color: Color.black.opacity(0.04), radius: 1, x: 1, y: 3)
                 }
                 .padding(.horizontal, 15)
                 
@@ -155,6 +158,7 @@ struct DraggableSheet: View {
                     .background(.white)
                     .cornerRadius(15)
                     .padding(.horizontal, 15)
+                    .shadow(color: Color.black.opacity(0.04), radius: 1, x: 1, y: 3)
                 }
                 
                 // Additional Detail
@@ -243,6 +247,7 @@ struct AdditionalDetailCardView: View {
                 .stroke(isSelected ? PrimaryColor : .clear, lineWidth: 2)
         )
         .padding(1)
+        .shadow(color: Color.black.opacity(0.04), radius: 1, x: 1, y: 3)
     }
 }
 
@@ -283,6 +288,7 @@ struct SelectedDetailsCardView: View {
             .padding(.vertical, 7)
             .background(.white)
             .cornerRadius(10)
+            .shadow(color: Color.black.opacity(0.04), radius: 1, x: 1, y: 3)
         }
     }
 }

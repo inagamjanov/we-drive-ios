@@ -122,5 +122,6 @@ struct WishCardView: View {
         .padding(15)
         .background(.white)
         .cornerRadius(15)
+        .shadow(color: Color.black.opacity(0.04), radius: 1, x: 1, y: 3)
     }
 }

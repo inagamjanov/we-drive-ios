@@ -35,6 +35,7 @@ struct RouterView: View {
                     .interactiveDismissDisabled(true)
                     .presentationBackground(.ultraThinMaterial)
                     .presentationDragIndicator(.visible)
+                    .presentationContentInteraction(.scrolls)
                     .presentationBackgroundInteraction(.enabled)
                     .presentationDetents([.height(300), .medium, .fraction(0.95)], selection: $routerMVVM.sheetSize)
                 }
