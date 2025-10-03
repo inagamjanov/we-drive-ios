@@ -60,9 +60,14 @@ struct MapView: View {
         )
         .mapStyle(.standard)
         .ignoresSafeArea()
+        .overlay(alignment: .bottom) {
+            MapOverlay(viewport: $viewport)
+                .padding(.horizontal, 15)
+        }
+        
         .onAppear {
             withAnimation(.linear) {
-                viewport = .followPuck(zoom: 14.8, bearing: .course, pitch: 0)
+                viewport = .followPuck(zoom: 14, bearing: .course, pitch: 0)
             }
         }
         .task {

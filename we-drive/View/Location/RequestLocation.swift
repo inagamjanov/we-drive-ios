@@ -41,6 +41,7 @@ struct RequestLocationPermissionView: View {
                     )
                 )
                 .cornerRadius(15)
+                .shadow(color: Color.black.opacity(0.04), radius: 1, x: 1, y: 3)
             }
         }
         .padding(30)
