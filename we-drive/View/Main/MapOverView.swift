@@ -20,7 +20,9 @@ struct MapOverlay: View {
             Spacer()
             
             Button {
-                viewport = .followPuck(zoom: 14, bearing: .course, pitch: 0)
+                withAnimation {
+                    viewport = .followPuck(zoom: 14, bearing: .course, pitch: 0)
+                }
             } label: {
                 Image("target")
                     .resizable()

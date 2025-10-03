@@ -37,7 +37,7 @@ struct RouterView: View {
                     .presentationDragIndicator(.visible)
                     .presentationContentInteraction(.scrolls)
                     .presentationBackgroundInteraction(.enabled)
-                    .presentationDetents([.height(300), .medium, .fraction(0.90)], selection: $routerMVVM.sheetSize)
+                    .presentationDetents([.height(300), .medium, .fraction(0.99)], selection: $routerMVVM.sheetSize)
                 }
                 .sheet(isPresented: $routerMVVM.showContactPicker) {
                     ContactPicker { number in
