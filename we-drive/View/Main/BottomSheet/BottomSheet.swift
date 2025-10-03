@@ -14,7 +14,10 @@ struct BottomSheetView: View {
     @State var from: String = "IT Park"
     @State var to: String = "Impact Group"
     
-    @StateObject var tarrifsMVVM: TarrifsMVVM = .init()
+    @EnvironmentObject private var routerMVVM: RouterMVVM
+    @EnvironmentObject private var rideDetailsMVVM: RideDetailsMVVM
+    
+    @StateObject private var tarrifsMVVM: TarrifsMVVM = .init()
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -156,8 +159,8 @@ struct BottomSheetView: View {
                 
                 // Additional Detail
                 HStack(alignment: .center, spacing: 10) {
-                    NavigationLink {
-                        
+                    Button {
+                        routerMVVM.showContactPicker = true
                     } label: {
                         AdditionalDetailCardView(title: "Boshqa odam nomiga buyurtma", image: "peoples")
                     }
@@ -169,6 +172,20 @@ struct BottomSheetView: View {
                     }
                 }
                 .padding(.horizontal, 15)
+                
+                // Details
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .center, spacing: 10) {
+                        if let phone = rideDetailsMVVM.anotherPerson {
+                            SelectedDetailsCardView(img: "", text: phone) {
+                                rideDetailsMVVM.anotherPerson = nil
+                            }
+                        }
+                        
+                        Spacer(minLength: 0)
+                    }
+                    .padding(.horizontal, 15)
+                }
             }
             .padding(.top, 30)
             .padding(.bottom, 95)
@@ -186,37 +203,6 @@ struct BottomSheetView: View {
         }
         
         return tarrifsMVVM.tarrifs.filter({ $0.tarrif == tarrifsMVVM.selectedTarrif })
-    }
-}
-
-
-// MARK: - Tarrifs Mini Card
-struct TarrifCardView: View {
-    
-    // Properties
-    public var tarrif: Tarrifs
-    public var isSelected: Bool = false
-    
-    public var action: (Tarrifs) -> Void
-    
-    var body: some View {
-        Button {
-            withAnimation(.easeInOut) {
-                action(tarrif)
-            }
-        } label: {
-            Text(tarrif.asString)
-                .as_font(.footnote, .medium, isSelected ? .white : Color.black, 1)
-                .padding(.vertical, 12)
-                .padding(.horizontal, 15)
-                .background(isSelected ? PrimaryColor : .clear)
-                .cornerRadius(CGFloat(10))
-                .overlay(
-                    RoundedRectangle(cornerRadius: CGFloat(10))
-                        .stroke(isSelected ? PrimaryColor : Color(.systemGray3), lineWidth: 1)
-                )
-                .padding(0.5)
-        }
     }
 }
 
@@ -248,63 +234,39 @@ struct AdditionalDetailCardView: View {
 }
 
 
-// MARK: - Tarrif Detailed Card
-struct TarrifDetailCardView: View {
+// MARK: - Selected Details Card
+struct SelectedDetailsCardView: View {
     
-    var tarrif: Tarrif
-    var isSelected: Bool
+    var img: String
+    var text: String
+    var onClick: () -> Void
     
     var body: some View {
-        ZStack(alignment: .center) {
-            
-            Image(tarrif.bgImg)
-                .resizable()
-                .scaledToFit()
-                .frame(width: screenWidth - 40)
-                .overlay(
-                    RoundedRectangle(cornerRadius: CGFloat(20))
-                        .stroke(isSelected ? PrimaryColor : .white, lineWidth: 3)
-                )
-                .padding(1.5)
-            
-            LazyVStack(alignment: .leading, spacing: 7) {
-                
-                Text(tarrif.name)
-                    .as_font(.title, .semibold, .black, 1)
-                
-                HStack(alignment: .center, spacing: 8) {
-                    Image("person")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 15, height: 15)
-                    
-                    Text("\(tarrif.capacity) Kishilik")
-                        .as_font(.callout, .medium, PrimaryColor, 1)
-                }
-                
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("\(tarrif.price, specifier: "%.0f") so'm")
-                        .as_font(.footnote, .medium, .gray, 1)
-                    
-                    Text("\(tarrif.discountedPrice, specifier: "%.0f") so'm")
-                        .as_font(.body, .semibold, .black, 1)
-                }
-                .padding(.vertical, 5)
-                
-                HStack(alignment: .center, spacing: 8) {
-                    Image("time")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 15, height: 15)
-                    
-                    Text("\(tarrif.time, specifier: "%.0f") Daqiqa")
-                        .as_font(.footnote, .regular, .gray, 1)
-                }
-                
-                Text("\(tarrif.cars.joined(separator: ", "))")
-                    .as_font(.footnote, .regular, .gray, 1)
+        Button {
+            withAnimation {
+                onClick()
             }
-            .padding(.horizontal, 15)
+        } label: {
+            HStack(alignment: .center, spacing: 5) {
+                Image(img)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 25, height: 25)
+                
+                Text(text)
+                    .as_font(.callout, .medium, .black, 1)
+                
+                Image(systemName: "xmark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 15, height: 15)
+                    .padding(.leading, 5)
+                    .fontWeight(.semibold)
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(.white)
+            .cornerRadius(10)
         }
     }
 }

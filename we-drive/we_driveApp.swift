@@ -14,7 +14,7 @@ struct we_driveApp: App {
     
     var body: some Scene {
         WindowGroup {
-            RouterView()
+            RouterView(rideDetailsMVVM: RideDetailsMVVM())
                 .ignoresSafeArea(.all)
                 .autocapitalization(.none)
                 .autocorrectionDisabled(true)
