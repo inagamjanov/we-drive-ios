@@ -63,7 +63,11 @@ struct BottomSheetView: View {
                     HStack(alignment: .center, spacing: 10) {
                         ForEach(Array(zip(Tarrifs.allCases.indices, Tarrifs.allCases)), id: \.0) { idx, tarrif in
                             TarrifCardView(tarrif: tarrif, isSelected: tarrifsMVVM.selectedTarrif == tarrif) { newTarrif in
-                                tarrifsMVVM.selectedTarrif = newTarrif
+                                if newTarrif == tarrifsMVVM.selectedTarrif {
+                                    tarrifsMVVM.selectedTarrif = .All
+                                } else {
+                                    tarrifsMVVM.selectedTarrif = newTarrif
+                                }
                             }
                         }
                     }
@@ -73,8 +77,15 @@ struct BottomSheetView: View {
                 // Tarrif Details
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .center, spacing: 10) {
-                        ForEach(tarrifsMVVM.tarrifs) { tarrif in
-                            TarrifDetailCardView(tarrif: tarrif)
+                        ForEach(filteredTarrifs) { tarrif in
+                            Button {
+                                withAnimation(.easeInOut) {
+                                    tarrifsMVVM.selectedTarrifCar = tarrif.id
+                                    tarrifsMVVM.selectedTarrif = tarrif.tarrif
+                                }
+                            } label: {
+                                TarrifDetailCardView(tarrif: tarrif, isSelected: tarrifsMVVM.selectedTarrifCar == tarrif.id)
+                            }
                         }
                     }
                     .padding(.horizontal, 15)
@@ -168,6 +179,14 @@ struct BottomSheetView: View {
             }
         }
     }
+    
+    var filteredTarrifs: Array<Tarrif> {
+        if tarrifsMVVM.selectedTarrif == .All {
+            return tarrifsMVVM.tarrifs
+        }
+        
+        return tarrifsMVVM.tarrifs.filter({ $0.tarrif == tarrifsMVVM.selectedTarrif })
+    }
 }
 
 
@@ -182,7 +201,7 @@ struct TarrifCardView: View {
     
     var body: some View {
         Button {
-            withAnimation {
+            withAnimation(.easeInOut) {
                 action(tarrif)
             }
         } label: {
@@ -233,19 +252,20 @@ struct AdditionalDetailCardView: View {
 struct TarrifDetailCardView: View {
     
     var tarrif: Tarrif
+    var isSelected: Bool
     
     var body: some View {
         ZStack(alignment: .center) {
             
-            Image("first")
+            Image(tarrif.bgImg)
                 .resizable()
                 .scaledToFit()
                 .frame(width: screenWidth - 40)
                 .overlay(
                     RoundedRectangle(cornerRadius: CGFloat(20))
-                        .stroke(.white, lineWidth: 4)
+                        .stroke(isSelected ? PrimaryColor : .white, lineWidth: 3)
                 )
-                .padding(2)
+                .padding(1.5)
             
             LazyVStack(alignment: .leading, spacing: 7) {
                 
@@ -269,6 +289,7 @@ struct TarrifDetailCardView: View {
                     Text("\(tarrif.discountedPrice, specifier: "%.0f") so'm")
                         .as_font(.body, .semibold, .black, 1)
                 }
+                .padding(.vertical, 5)
                 
                 HStack(alignment: .center, spacing: 8) {
                     Image("time")
@@ -284,7 +305,6 @@ struct TarrifDetailCardView: View {
                     .as_font(.footnote, .regular, .gray, 1)
             }
             .padding(.horizontal, 15)
-            .padding(.top, 5)
         }
     }
 }
