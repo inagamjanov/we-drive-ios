@@ -25,15 +25,18 @@ struct RouterView: View {
             // Allowed
             MapView()
                 .sheet(isPresented: .constant(routerMVVM.showContactPicker == false)) {
-                    BottomSheetView()
-                        .environmentObject(routerMVVM)
-                        .environmentObject(rideDetailsMVVM)
-                        .presentationCornerRadius(30)
-                        .interactiveDismissDisabled(true)
-                        .presentationBackground(.ultraThinMaterial)
-                        .presentationDragIndicator(.visible)
-                        .presentationBackgroundInteraction(.enabled)
-                        .presentationDetents([.height(300), .medium, .fraction(0.95)], selection: $routerMVVM.sheetSize)
+                    NavigationStack {
+                        BottomSheetView()
+                    }
+                    .background(.ultraThinMaterial)
+                    .environmentObject(routerMVVM)
+                    .environmentObject(rideDetailsMVVM)
+                    .presentationCornerRadius(30)
+                    .interactiveDismissDisabled(true)
+                    .presentationBackground(.ultraThinMaterial)
+                    .presentationDragIndicator(.visible)
+                    .presentationBackgroundInteraction(.enabled)
+                    .presentationDetents([.height(300), .medium, .fraction(0.95)], selection: $routerMVVM.sheetSize)
                 }
                 .sheet(isPresented: $routerMVVM.showContactPicker) {
                     ContactPicker { number in

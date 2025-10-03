@@ -162,13 +162,13 @@ struct BottomSheetView: View {
                     Button {
                         routerMVVM.showContactPicker = true
                     } label: {
-                        AdditionalDetailCardView(title: "Boshqa odam nomiga buyurtma", image: "peoples")
+                        AdditionalDetailCardView(title: "Boshqa odam nomiga buyurtma", image: "peoples", isSelected: rideDetailsMVVM.anotherPerson != nil)
                     }
                     
                     NavigationLink {
                         
                     } label: {
-                        AdditionalDetailCardView(title: "Qo’shimcha imkoniyatlar", image: "tools")
+                        AdditionalDetailCardView(title: "Qo’shimcha imkoniyatlar", image: "tools", isSelected: false)
                     }
                 }
                 .padding(.horizontal, 15)
@@ -177,10 +177,12 @@ struct BottomSheetView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .center, spacing: 10) {
                         if let phone = rideDetailsMVVM.anotherPerson {
-                            SelectedDetailsCardView(img: "", text: phone) {
+                            SelectedDetailsCardView(img: "phone.fill", text: phone) {
                                 rideDetailsMVVM.anotherPerson = nil
                             }
                         }
+                        
+                        
                         
                         Spacer(minLength: 0)
                     }
@@ -212,6 +214,7 @@ struct AdditionalDetailCardView: View {
     
     var title: String
     var image: String
+    var isSelected: Bool
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -230,6 +233,11 @@ struct AdditionalDetailCardView: View {
                 .frame(width: 60, height: 60)
                 .padding(3)
         }
+        .overlay(
+            RoundedRectangle(cornerRadius: CGFloat(15))
+                .stroke(isSelected ? PrimaryColor : .clear, lineWidth: 2)
+        )
+        .padding(1)
     }
 }
 
@@ -247,11 +255,12 @@ struct SelectedDetailsCardView: View {
                 onClick()
             }
         } label: {
-            HStack(alignment: .center, spacing: 5) {
-                Image(img)
+            HStack(alignment: .center, spacing: 8) {
+                Image(systemName: img)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 25, height: 25)
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(PrimaryColor)
                 
                 Text(text)
                     .as_font(.callout, .medium, .black, 1)
